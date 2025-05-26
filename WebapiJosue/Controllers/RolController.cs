@@ -7,29 +7,32 @@ using WebapiJosue.Services.Services;
 
 namespace WebapiJosue.Controllers
 {
+    // Indica que esta clase es un controlador de API y define la ruta base [controller] = "Rol"
     [ApiController]
     [Route("[controller]")]
     public class RolController : Controller
     {
         private readonly IRolServices _rolServices;
-        //Instancia la clase IRolServices en todo el proyecto para usar todos lo metodos creados
+
+        // Constructor que recibe por inyección de dependencias la implementación de IRolServices
+        // Permite utilizar los métodos del servicio en todo el controlador
         public RolController(IRolServices rolServices)
         {
             _rolServices = rolServices;
         }
 
-        // Obtener todos los roles
+        // ---------------------- GET: Obtener todos los roles ----------------------
         [HttpGet]
         public async Task<IActionResult> GetRols()
         {
-            // Llama al servicio para obtener la lista de roles
+            // Llama al servicio para obtener la lista de roles existentes
             var rols = await _rolServices.GetRols();
 
             // Retorna la lista de roles con estado 200 OK
             return Ok(rols);
         }
 
-        // Obtener un rol por ID
+        // ---------------------- GET: Obtener un rol por ID ----------------------
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetRol(int id)
         {
@@ -44,7 +47,7 @@ namespace WebapiJosue.Controllers
             return Ok(rol);
         }
 
-        // Crear un nuevo rol
+        // ---------------------- POST: Crear un nuevo rol ----------------------
         [HttpPost("crear")]
         public async Task<IActionResult> PostRol([FromBody] Rol request)
         {
@@ -59,7 +62,7 @@ namespace WebapiJosue.Controllers
             return CreatedAtAction(nameof(GetRol), new { id = createdRol.PKRol }, createdRol);
         }
 
-        // Actualizar un rol existente
+        // ---------------------- PUT: Actualizar un rol existente ----------------------
         [HttpPut("editar/{id:int}")]
         public async Task<IActionResult> PutRol(int id, [FromBody] Rol request)
         {
@@ -78,7 +81,7 @@ namespace WebapiJosue.Controllers
             return Ok(updatedRol);
         }
 
-        // Eliminar un rol
+        // ---------------------- DELETE: Eliminar un rol por ID ----------------------
         [HttpDelete("eliminar/{id:int}")]
         public async Task<IActionResult> DeleteRol(int id)
         {

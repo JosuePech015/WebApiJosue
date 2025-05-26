@@ -6,10 +6,10 @@ namespace WebapiJosue.Services.IServices
     public interface IRolServices
     {
 
-        Task<List<Rol>> GetRols(); // Obtiene la lista de todos los roles.
-        Task<Rol> GetByIdRol(int id); // Obtiene un rol por su identificador.
-        Task<Rol> CreateRol(Rol i); // Crea un nuevo rol en la base de datos.
-        Task<Rol> EditRol(Rol i); // Edita los datos de un rol existente.
-        Task<bool> DeleteRol(int id); // Elimina un rol por su identificador.
+        Task<List<Rol>> GetRols(); // Devuelve una lista de todos los objetos Rol en la base de datos
+        Task<Rol> GetByIdRol(int id); // Devuelve un objeto Rol que coincida con el ID proporcionado
+        Task<Rol> CreateRol(Rol i);  // Crea un nuevo rol en la base de datos y devuelve el objeto creado
+        Task<Rol> EditRol(Rol i); // Actualiza un rol ya existente con los nuevos datos proporcionados
+        Task<bool> DeleteRol(int id); // Elimina un rol de la base de datos según su ID y devuelve true si fue exitoso
     }
 }

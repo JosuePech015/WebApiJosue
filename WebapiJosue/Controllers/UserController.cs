@@ -10,25 +10,28 @@ namespace WebapiJosue.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
+        // Campo privado que representa el servicio de usuarios
         private readonly IUserServices _userServices;
-        //Instancia la clase IUserServices en todo el proyecto para usar todos lo metodos creados
+
+        // Constructor que recibe el servicio por inyección de dependencias
+        // Esto permite usar los métodos definidos en IUserServices en todo el controlador
         public UserController(IUserServices userServices)
         {
             _userServices = userServices;
         }
 
-        // Obtener todos los usuarios
+        // ---------------------- GET: Obtener todos los usuarios ----------------------
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            // Llama al servicio para obtener todos los usuarios
+            // Llama al servicio para obtener todos los usuarios desde la base de datos
             var users = await _userServices.GetUsers();
 
             // Retorna la lista de usuarios con estado 200 OK
             return Ok(users);
         }
 
-        // Obtener un usuario por ID
+        // ---------------------- GET: Obtener un usuario por ID ----------------------
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -43,7 +46,7 @@ namespace WebapiJosue.Controllers
             return Ok(user);
         }
 
-        // Crear un nuevo usuario
+        // ---------------------- POST: Crear un nuevo usuario ----------------------
         [HttpPost("crear")]
         public async Task<IActionResult> PostUser([FromBody] UserRequest request)
         {
@@ -54,11 +57,11 @@ namespace WebapiJosue.Controllers
             // Llama al servicio para crear el usuario
             var createdUser = await _userServices.CreateUser(request);
 
-            // Retorna estado 201 Created con la ruta del nuevo recurso
+            // Retorna el nuevo usuario creado con estado 201 Created y la ruta del nuevo recurso
             return CreatedAtAction(nameof(GetUser), new { id = createdUser.PKUser }, createdUser);
         }
 
-        // Actualizar un usuario existente
+        // ---------------------- PUT: Actualizar un usuario existente ----------------------
         [HttpPut("editar/{id:int}")]
         public async Task<IActionResult> PutUser(int id, [FromBody] UserRequest request)
         {
@@ -77,7 +80,7 @@ namespace WebapiJosue.Controllers
             return Ok(updatedUser);
         }
 
-        // Eliminar un usuario
+        // ---------------------- DELETE: Eliminar un usuario por ID ----------------------
         [HttpDelete("eliminar/{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
